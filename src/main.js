@@ -7,7 +7,7 @@ const canvas = document.getElementById('canvas');
 
 //1. Scene
 const scene = new THREE.Scene();
-scene.background = new THREE.Color('#fffede');
+scene.background = new THREE.Color('#e0f7fa');
 
 //2. Camera
 const camera = new THREE.PerspectiveCamera(75,window.innerWidth/ window.innerHeight,0.1,1000);
@@ -41,10 +41,22 @@ const ringMaterial = new THREE.MeshPhongMaterial({
 const ring = new THREE.Mesh(ringGeometry, ringMaterial)
 
 
+const ringGeometry2 = new THREE.TorusGeometry(1.2, 0.13, 16, 100);
+const ringMaterial2 = new THREE.MeshPhongMaterial({
+  color: 0xa1123d,
+  shininess: 100,
+  specular: 0x00ff00,
+});
+
+
+const ring2 = new THREE.Mesh(ringGeometry2, ringMaterial2)
 
 
 
-const boxGeometry = new RoundedBoxGeometry(2, 0.1, 2, 100,0.4);
+
+
+
+const boxGeometry = new RoundedBoxGeometry(2, 0.1, 2, 10,0.4);
 const boxMaterial = new THREE.MeshPhongMaterial({
   color: 0x204799,
   shininess: 100,
@@ -55,9 +67,15 @@ const box = new THREE.Mesh(boxGeometry, boxMaterial);
 box.position.y = -1.5;
 
 
+
+
+
+
+
 scene.add(dodecahedron);
 scene.add(box);
 scene.add(ring);
+scene.add(ring2);
 
 
 //4. light
@@ -65,6 +83,9 @@ scene.add(ring);
 const light = new THREE.DirectionalLight(0xffffff, 10);
 light.position.set(1,1,1);
 scene.add(light);
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.3); // Soft global lighting
+scene.add(ambientLight);
 
 
 //5. renderer
@@ -96,6 +117,8 @@ function animate(){
   dodecahedron.rotation.y += 0.02;
   ring.rotation.y += 0.01;
   ring.rotation.x += 0.03;
+  ring2.rotation.y -= 0.03;
+  ring2.rotation.x -= 0.01;
   box.rotation.y += 0.005;
   
   
@@ -114,5 +137,6 @@ window.addEventListener("resize", ()=>{
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth,window.innerHeight);
   
-})
+});
+
 
